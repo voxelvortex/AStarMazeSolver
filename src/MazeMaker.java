@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class MazeMaker
 {
     private BufferedImage img;
-
     MazeMaker(String path)
     {
         try {
