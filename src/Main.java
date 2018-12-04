@@ -1,30 +1,18 @@
-import javax.sound.midi.SysexMessage;
 import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
-    //testing mazes
-    public static int[][] maze2 =   {{1,2,1,3},
-            {0,0,1,0},
-            {0,1,0,0},
-            {0,0,0,1}};
-    public static int[][] maze1 =   {{2,1,1,3},
-            {0,1,1,0},
-            {0,1,0,0},
-            {0,0,0,1}};
-
-    public static int[][] maze =   {{1,2,3,1},
-            {0,1,1,0},
-            {0,1,0,0},
-            {0,0,0,1}};
-
-    public static int[][] maze3 = {{3,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,2}};
-
     public static void main(String[] args)
     {
+        //args = new String[] {"C:\\Users\\maest\\IdeaProjects\\MazeSolver\\mazes\\maze3.png"};
+        if(args[0].equals("help"))
+            args = new String[] {};
         if(args.length != 1)
         {
-            System.out.println("Incorrect number of parameters!");
+            if(args.length == 0)
+                help();
+            else
+                System.out.println("Incorrect number of parameters!");
             System.exit(1);
         }
         if(!filetypeIsSupported(args[0]))
@@ -38,20 +26,22 @@ public class Main {
         MazeMaker mm = new MazeMaker(args[0]);
 
         //make maze into 2d array
-        maze = mm.getMaze();
-
-        //solve the maze
-        System.out.println("Solving maze...");
+        int[][] maze = mm.getMaze();
         Solver solver = new Solver(maze);
 
-        //get solution into a ArrayList
+        //solve the maze and get solution into a ArrayList
+        System.out.println("Solving maze...");
+        //time the solution
+        long startTime = System.currentTimeMillis();
         ArrayList<Point> solution = solver.getSolution();
+        long completionTime = System.currentTimeMillis() - startTime;
+        System.out.println("The maze was solved in "+completionTime+" milliseconds!");
 
         //print out the maze
-        System.out.println("Printing maze");
+        //System.out.println("Printing maze");
         //solver.printMaze();
 
-        System.out.println();
+        //System.out.println();
 
         //print out the maze with the solution
         //buildSolvedMaze(solution, maze);
@@ -123,5 +113,10 @@ public class Main {
                 System.out.print((" "+i).replace('#','+').replace('1','#'));
             System.out.println();
         }
+    }
+
+    public static void help()
+    {
+        System.out.println("An image file must be provided for the MazeSolver to run.");
     }
 }

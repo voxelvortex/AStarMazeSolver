@@ -4,8 +4,8 @@ public class Solver
 {
     private int[][] maze;
     private static Point[][] points;
-    private static int[] start;
-    private static int[] end;
+    private static Point start;
+    private static Point end;
     private static ArrayList<Point> open;
     private static ArrayList<Point> closed;
 
@@ -15,10 +15,8 @@ public class Solver
         open = new ArrayList<>();
         closed = new ArrayList<>();
         points = new Point[maze.length][maze[0].length];
-        start = new int[2];
-        end = new int[2];
         setPointsArray();
-        open.add(points[start[0]][start[1]]);
+        open.add(start);
     }
 
     private void setPointsArray()
@@ -27,16 +25,20 @@ public class Solver
             for (int col = 0; col < points[row].length; col++) {
                 points[row][col] = new Point(row, col, maze[row][col]);
                 if (maze[row][col] == 2)
-                        start = new int[]{row, col};
+                {
+                        start = points[row][col];
+                }
                 if (maze[row][col] == 3)
-                    end = new int[]{row, col};
+                {
+                    end = points[row][col];
+                }
             }
         }
     }
 
     public ArrayList<Point> getSolution()
     {
-        Point current = points[end[0]][end[1]];
+        Point current = end;
         ArrayList<Point> solution = new ArrayList<>();
 
         AStarAlgorithm();
@@ -50,7 +52,7 @@ public class Solver
                 current = current.getParentPoint();
             }catch(NullPointerException e){break;}
         }
-        if(!solution.contains(points[end[0]][end[1]]) || !solution.contains(points[start[0]][start[1]]))
+        if(!solution.contains(end) || !solution.contains(start))
             System.out.println("No solution found!");
 
 
@@ -59,9 +61,8 @@ public class Solver
 
     private void AStarAlgorithm()
     {
-        open.add(points[start[0]][start[1]]);
         Point current;
-        while(!open.isEmpty() && !closed.contains(points[end[0]][end[1]]))
+        while(!open.isEmpty() && !closed.contains(end))
         {
             current = getLowestInList(open);
             open.remove(current);
@@ -73,12 +74,12 @@ public class Solver
 
     private void setupPoint(Point p)
     {
-        p.setH(Math.abs(end[0] - p.getX()) + Math.abs(end[1] - p.getY()));
-        p.setG(Math.abs(start[0] - p.getX()) + Math.abs(start[1] - p.getY()));
+        p.setH(Math.abs(end.getX() - p.getX()) + Math.abs(end.getY() - p.getY()));
+        p.setG(Math.abs(start.getX() - p.getX()) + Math.abs(start.getY() - p.getY()));
         p.setF();
     }
 
-    public ArrayList<Point> setupAdjacentPoints(Point p, ArrayList<Point> open, ArrayList<Point> closed)
+    private ArrayList<Point> setupAdjacentPoints(Point p, ArrayList<Point> open, ArrayList<Point> closed)
     {
         int x = p.getX();
         int y = p.getY();
