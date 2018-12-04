@@ -14,7 +14,11 @@ public class MazeMaker
         try {
             img = ImageIO.read(new File(path));
         }
-        catch (IOException ioe){System.out.println(ioe);}
+        catch (IOException ioe)
+        {
+            System.out.println(ioe);
+            System.exit(1);
+        }
     }
 
     public int[][] getMaze()
@@ -52,8 +56,7 @@ public class MazeMaker
         {
             int x = p.getX();
             int y = p.getY();
-            int color = img.getRGB(x,y);
-            color = (255<<24) | (0<<16) | (255<<8) | 0;
+            int color = (255<<24) | (0<<16) | (255<<8) | 0; //A R G B
 
             img.setRGB(x, y, color);
         }
