@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Solver
+public abstract class Solver
 {
-    private int[][] maze;
-    private static Point[][] points;
-    private static Point start;
-    private static Point end;
-    private static ArrayList<Point> open;
-    private static ArrayList<Point> closed;
+    protected int[][] maze;
+    protected static Point[][] points;
+    protected static Point start;
+    protected static Point end;
+    protected static ArrayList<Point> open;
+    protected static ArrayList<Point> closed;
 
     Solver(int[][] maze)
     {
@@ -36,12 +36,14 @@ public class Solver
         }
     }
 
+    protected abstract void algorithm();
+
     public ArrayList<Point> getSolution()
     {
         Point current = end;
         ArrayList<Point> solution = new ArrayList<>();
 
-        AStarAlgorithm();
+        algorithm();
 
         while(true)
         {
@@ -59,27 +61,9 @@ public class Solver
         return solution;
     }
 
-    private void AStarAlgorithm()
-    {
-        Point current;
-        while(!open.isEmpty() && !closed.contains(end))
-        {
-            current = getLowestInList(open);
-            open.remove(current);
-            closed.add(current);
-            open = setupAdjacentPoints(current, open, closed);
-        }
+    protected abstract void setupPoint(Point p);
 
-    }
-
-    private void setupPoint(Point p)
-    {
-        p.setH(Math.abs(end.getX() - p.getX()) + Math.abs(end.getY() - p.getY()));
-        p.setG(Math.abs(start.getX() - p.getX()) + Math.abs(start.getY() - p.getY()));
-        p.setF();
-    }
-
-    private ArrayList<Point> setupAdjacentPoints(Point p, ArrayList<Point> open, ArrayList<Point> closed)
+    protected ArrayList<Point> setupAdjacentPoints(Point p, ArrayList<Point> open, ArrayList<Point> closed)
     {
         int x = p.getX();
         int y = p.getY();
@@ -133,7 +117,7 @@ public class Solver
         return open;
     }
 
-    private Point getLowestInList(ArrayList<Point> ps)
+    protected Point getLowestInList(ArrayList<Point> ps)
     {
         if(ps.isEmpty())
             return null;

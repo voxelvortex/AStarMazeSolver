@@ -27,7 +27,7 @@ public class Main {
 
         //make maze into 2d array
         int[][] maze = mm.getMaze();
-        Solver solver = new Solver(maze);
+        Solver solver = new AStarSolver(maze);
 
         //solve the maze and get solution into a ArrayList
         System.out.println("Solving maze...");
