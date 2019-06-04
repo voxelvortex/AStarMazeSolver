@@ -8,9 +8,12 @@ public abstract class Solver
     protected static Point end;
     protected static ArrayList<Point> open;
     protected static ArrayList<Point> closed;
+    protected static ArrayList<Point> solution;
+    protected static boolean solvable;
 
-    Solver(int[][] maze)
+    public Solver(int[][] maze)
     {
+        solution = new ArrayList<>();
         this.maze = maze;
         open = new ArrayList<>();
         closed = new ArrayList<>();
@@ -40,97 +43,50 @@ public abstract class Solver
 
     public ArrayList<Point> getSolution()
     {
-        Point current = end;
-        ArrayList<Point> solution = new ArrayList<>();
-
         algorithm();
-
+        Point current = end;
         while(true)
         {
-            try
-            {
-                if(!current.isWall())
-                    solution.add(current);
-                current = current.getParentPoint();
-            }catch(NullPointerException e){break;}
+            if(!current.isWall())
+                solution.add(current);
+            if(current.getParentPoint() == null)
+                break;
+            current = current.getParentPoint();
         }
-        if(!solution.contains(end) || !solution.contains(start))
-            System.out.println("No solution found!");
-
+        System.out.println();
+        if(solution.contains(end) && solution.contains(start))
+            solvable = true;
+        else
+            solvable = false;
 
         return solution;
     }
 
-    protected abstract void setupPoint(Point p);
-
-    protected ArrayList<Point> setupAdjacentPoints(Point p, ArrayList<Point> open, ArrayList<Point> closed)
+    public boolean isSolvable()
     {
-        int x = p.getX();
-        int y = p.getY();
-        int width = points[0].length-1;
-        int height = points.length-1;
-
-        for(int row = -1; row <= 1; row++)
-        {
-            for(int col = -1; col <= 1; col++)
-            {
-                //check if it's p
-                if(row == 0 && col==0)
-                    continue;
-                //make sure it isn't out of bounds
-                if(x + row < 0 || x + row > width)
-                    continue;
-                if(y + col < 0 || y + col > height)
-                    continue;
-                //make sure this is ok to check
-                if(closed.contains(points[x+row][y+col]))
-                    continue;
-                //make sure it isn't a wall
-                if(points[x+row][y+col].isWall())
-                    continue;
-                if(row == -1)
-                {
-                    if(col == -1)
-                        continue;
-                    if(col == 1)
-                        continue;
-                }
-                if(row == 1)
-                {
-                    if(col == -1)
-                        continue;
-                    if(col == 1)
-                        continue;
-                }
-                if(open.contains(points[x+row][y+col]))
-                {
-                    if(p.getF() < points[row+x][col+y].getParentPoint().getF())
-                        points[x+row][y+col].setParentPoint(p);
-                    continue;
-                }
-                setupPoint(points[row+x][col+y]);
-                points[row+x][col+y].setParentPoint(p);
-                open.add(points[row+x][col+y]);
-            }
-
-        }
-        return open;
+        return solvable;
     }
+
+    protected void addPoint(ArrayList<Point> points, Point p) {
+    if(points.size() == 0){
+        points.add(p);
+        return;
+    }
+    for(int i = 0; i < points.size(); i++){
+        if(points.get(i).getF() <= p.getF()) {
+            points.add(i, p);
+            return;
+        }
+    }
+    points.add(p);
+}
+
 
     protected Point getLowestInList(ArrayList<Point> ps)
     {
         if(ps.isEmpty())
             return null;
-        int lowest = Integer.MAX_VALUE;
         Point lowestP = ps.get(0);
-        for(Point p: ps)
-        {
-            if(lowest < p.getF())
-            {
-                lowest = p.getF();
-                lowestP = p;
-            }
-        }
         return lowestP;
     }
 
