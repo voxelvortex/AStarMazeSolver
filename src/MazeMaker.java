@@ -20,6 +20,10 @@ class MazeMaker
         }
     }
 
+    MazeMaker(BufferedImage img) {
+        this.img = img;
+    }
+
     int[][] getMaze()
     {
         System.out.println(img.toString());
