@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MazeMaker
+class MazeMaker
 {
     private BufferedImage img;
     MazeMaker(String path)
@@ -20,7 +20,7 @@ public class MazeMaker
         }
     }
 
-    public int[][] getMaze()
+    int[][] getMaze()
     {
         System.out.println(img.toString());
         int[][] key = {{255,255,255},{0,0,0},{255,0,0},{0,0,255}};
@@ -49,19 +49,19 @@ public class MazeMaker
         return maze;
     }
 
-    public void drawOnImg(ArrayList<Point> solution)
+    void drawOnImg(ArrayList<Point> solution)
     {
         for(Point p: solution)
         {
             int x = p.getX();
             int y = p.getY();
-            int color = (255<<24) | (0<<16) | (255<<8) | 0; //A R G B
+            int color = (255 << 24) | (255 << 8); //24A 16R 8G 0B
 
             img.setRGB(x, y, color);
         }
     }
 
-    public void writeImageToHDD(String path)
+    void writeImageToHDD(String path)
     {
         try
         {

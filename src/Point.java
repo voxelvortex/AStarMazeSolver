@@ -10,21 +10,17 @@ public class Point
     private int h;
     private Point parentPoint;
 
-    Point(int x, int y, int type)
-    {
+    Point(int x, int y, int type) {
         this.x = x;
         this.y = y;
         isWall = false;
-        if(type == 1)
-        {
+        if(type == 1) {
             isWall = true;
         }
-        if(type == 2)
-        {
+        if(type == 2) {
             isStart = true;
         }
-        if(type == 3)
-        {
+        if(type == 3) {
             isEnd = true;
         }
     }

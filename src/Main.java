@@ -54,7 +54,7 @@ public class Main {
         mm.writeImageToHDD(outputFileName(args[0]));
     }
 
-    public static boolean filetypeIsSupported(String filepath)
+    private static boolean filetypeIsSupported(String filepath)
     {
         String[] supportedFiletypes = {".jpeg",".png",".bmp",".wbmp",".gif"}; /*pulled from oracle.com, . included to
                                                                               avoid files like picturejpg, that don't
@@ -67,7 +67,7 @@ public class Main {
         return false;
     }
 
-    public static String outputFileName(String inputFileName)
+    private static String outputFileName(String inputFileName)
     {
         File file = new File(inputFileName);
         String parent = file.getParent();
@@ -82,7 +82,7 @@ public class Main {
         return outputFileName;
     }
 
-    public static String getFileNameWithoutExt(File file)
+    private static String getFileNameWithoutExt(File file)
     {
         String name = file.getName();
         int pos = name.lastIndexOf(".");
@@ -92,30 +92,7 @@ public class Main {
         return name;
     }
 
-    public static void buildSolvedMaze(ArrayList<Point> solution, int[][] maze)
-    {
-        String[][] mazeS = new String[maze.length][maze[0].length];
-        for(int row = 0; row < maze.length; row++)
-            for(int col = 0; col < maze[0].length; col++)
-            {
-                mazeS[row][col] = Integer.toString(maze[row][col]);
-            }
-
-        for(Point p: solution)
-        {
-            mazeS[p.getX()][p.getY()] = "#";
-        }
-
-
-        for(String[] m: mazeS)
-        {
-            for(String i: m)
-                System.out.print((" "+i).replace('#','+').replace('1','#'));
-            System.out.println();
-        }
-    }
-
-    public static void help()
+    private static void help()
     {
         System.out.println("An image file must be provided for the MazeSolver to run.");
     }

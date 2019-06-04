@@ -2,16 +2,16 @@ import java.util.ArrayList;
 
 public abstract class Solver
 {
-    protected int[][] maze;
-    protected static Point[][] points;
-    protected static Point start;
-    protected static Point end;
-    protected static ArrayList<Point> open;
-    protected static ArrayList<Point> closed;
-    protected static ArrayList<Point> solution;
-    protected static boolean solvable;
+    int[][] maze;
+    static Point[][] points;
+    static Point start;
+    static Point end;
+    static ArrayList<Point> open;
+    static ArrayList<Point> closed;
+    static ArrayList<Point> solution;
+    static boolean solvable;
 
-    public Solver(int[][] maze)
+    Solver(int[][] maze)
     {
         solution = new ArrayList<>();
         this.maze = maze;
@@ -41,7 +41,7 @@ public abstract class Solver
 
     protected abstract void algorithm();
 
-    public ArrayList<Point> getSolution()
+    ArrayList<Point> getSolution()
     {
         algorithm();
         Point current = end;
@@ -53,11 +53,7 @@ public abstract class Solver
                 break;
             current = current.getParentPoint();
         }
-        System.out.println();
-        if(solution.contains(end) && solution.contains(start))
-            solvable = true;
-        else
-            solvable = false;
+        solvable = solution.contains(end) && solution.contains(start);
 
         return solution;
     }
@@ -67,27 +63,25 @@ public abstract class Solver
         return solvable;
     }
 
-    protected void addPoint(ArrayList<Point> points, Point p) {
+    void addPoint(ArrayList<Point> points, Point p) {
     if(points.size() == 0){
         points.add(p);
         return;
     }
-    for(int i = 0; i < points.size(); i++){
-        if(points.get(i).getF() <= p.getF()) {
+    for(int i = 0; i < points.size(); i++)
+        if (points.get(i).getF() <= p.getF()) {
             points.add(i, p);
             return;
         }
-    }
     points.add(p);
 }
 
 
-    protected Point getLowestInList(ArrayList<Point> ps)
+    Point getLowestInList(ArrayList<Point> ps)
     {
         if(ps.isEmpty())
             return null;
-        Point lowestP = ps.get(0);
-        return lowestP;
+        return ps.get(0);
     }
 
     public void printMaze() {
