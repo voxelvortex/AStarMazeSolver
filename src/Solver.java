@@ -74,15 +74,11 @@ public abstract class Solver
                 return;
             }
         points.add(p);
-        System.out.println(inOrder(points));
     }
 
 
     Point getLowestInList(ArrayList<Point> ps)
     {
-        if(!inOrder(ps))
-            System.out.println("Rip");
-
         if(ps.isEmpty())
             return null;
         return ps.get(ps.size()-1);
