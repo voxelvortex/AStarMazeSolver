@@ -64,24 +64,36 @@ public abstract class Solver
     }
 
     void addPoint(ArrayList<Point> points, Point p) {
-    if(points.size() == 0){
-        points.add(p);
-        return;
-    }
-    for(int i = 0; i < points.size(); i++)
-        if (points.get(i).getF() <= p.getF()) {
-            points.add(i, p);
+        if(points.size() == 0){
+            points.add(p);
             return;
         }
-    points.add(p);
-}
+        for(int i = 0; i < points.size(); i++)
+            if (points.get(i).getF() <= p.getF()) {
+                points.add(i, p);
+                return;
+            }
+        points.add(p);
+        System.out.println(inOrder(points));
+    }
 
 
     Point getLowestInList(ArrayList<Point> ps)
     {
+        if(!inOrder(ps))
+            System.out.println("Rip");
+
         if(ps.isEmpty())
             return null;
-        return ps.get(0);
+        return ps.get(ps.size()-1);
+    }
+
+    public boolean inOrder(ArrayList<Point> ps){
+        for(int i = 1; i < ps.size(); i++){
+            if(ps.get(i-1).getF() < ps.get(i).getF())
+                return false;
+        }
+        return true;
     }
 
     public void printMaze() {
