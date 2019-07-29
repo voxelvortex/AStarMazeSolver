@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args)
     {
-        args = new String[] {"C:\\Users\\maest\\IdeaProjects\\MazeSolver\\mazes\\maze1XL.png"};
+        //args = new String[] {"C:\\Users\\maest\\IdeaProjects\\MazeSolver\\mazes\\maze1XL.png"};
         if(args.length >= 1 && args[0].equals("help"))
             args = new String[] {};
         if(args.length != 1)
